@@ -1,0 +1,10 @@
+# Environment
+.python-version
+
+# Editor
+*.swp
+*~
+.idea/
+
+# Interpreter
+__pycache__
