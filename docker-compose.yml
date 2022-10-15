@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  database:
+    container_name: gridwatch-scilly-postgres
+    image: postgres:15
+    restart: always
+    networks:
+      - gridwatch-scilly
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    networks:
+      - gridwatch-scilly
+    depends_on:
+      - database
+    command: database:5432
+
+networks:
+  gridwatch-scilly:
+    driver: bridge
