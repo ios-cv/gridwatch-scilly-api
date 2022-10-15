@@ -34,3 +34,6 @@ run-tasks: ## Runs the background task runner.
 test: ## Runs the test suite.
 	pytest
 
+fix-style: ## Fixes code style violations.
+	black src
+
