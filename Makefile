@@ -29,7 +29,7 @@ run-api: ## Runs the REST API web service.
 	uvicorn --app-dir ${ROOT}src main:app --reload
 
 run-tasks: ## Runs the background task runner.
-	@echo TODO: Implement me!
+	PYTHONPATH=${ROOT}src python -m src.tasks
 
 test: ## Runs the test suite.
 	pytest
