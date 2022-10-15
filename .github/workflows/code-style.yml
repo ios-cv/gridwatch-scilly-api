@@ -1,6 +1,9 @@
 name: Enforce Code Style
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
 
 jobs:
   lint:
@@ -9,5 +12,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: psf/black@stable
         with:
-          options: "--check --verbose"
+          options: "--check --verbose --diff"
           src: "./src"
