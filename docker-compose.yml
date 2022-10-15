@@ -4,6 +4,8 @@ services:
   database:
     container_name: gridwatch-scilly-postgres
     image: postgres:15
+    ports:
+      - "127.0.0.1:35432:5432"
     restart: always
     networks:
       - gridwatch-scilly
