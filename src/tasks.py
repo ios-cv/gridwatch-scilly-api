@@ -1,8 +1,8 @@
 import csv
+import datetime
 import requests
 import time
 
-from datetime import datetime
 from dateutil.parser import parse
 from io import StringIO
 
@@ -11,7 +11,7 @@ from .models import Base, DataLoad, TransformerBasic
 
 
 def start_of_today():
-    return datetime.combine(datetime.now(), datetime.time.min)
+    return datetime.datetime.combine(datetime.datetime.now(), datetime.time.min)
 
 
 def update_live_transformer_primary():
@@ -46,7 +46,7 @@ def update_live_transformer_primary():
             ))
 
         # Check if retrieved data is new.
-        if last_load is not None and last_load.props["end_time"] >= parsed_data[-1][0]:
+        if last_load is not None and parse(last_load.props["end_time"]) >= parsed_data[-1][0]:
             print("Data is not new. Return.")
             return
 
@@ -61,7 +61,7 @@ def update_live_transformer_primary():
         # Update the last checked data if we got anything new.
         db.add(DataLoad(
             dataset="live_primary",
-            time=datetime.utcnow(),
+            time=datetime.datetime.utcnow(),
             props={"end_time": parsed_data[-1][0].strftime("%Y%m%dT%H%M%S")}
         ))
 
@@ -86,4 +86,4 @@ if __name__ == "__main__":
 
         # Wait for next iteration time.
         print("Task scheduler run completed. Waiting for next time.")
-        time.sleep(300)
+        time.sleep(10)
