@@ -13,7 +13,7 @@ jobs:
       # Set up Python.
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: "3.10"
 
       # Cache the poetry installation so it doesn't have to be reinstalled every time.
       - name: cache poetry install
