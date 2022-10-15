@@ -18,7 +18,12 @@ def update_live_transformer_primary():
     db = SessionLocal()
     try:
         # Check in the database when we last updated this.
-        last_load = db.query(DataLoad).filter(DataLoad.dataset == "live_primary").order_by("time").first()
+        last_load = (
+            db.query(DataLoad)
+            .filter(DataLoad.dataset == "live_primary")
+            .order_by("time")
+            .first()
+        )
 
         # If it's worth looking for new data, then retrieve it from the WPD API.
         if last_load is not None and last_load.time > start_of_today():
@@ -40,30 +45,30 @@ def update_live_transformer_primary():
 
         parsed_data = []
         for line in reader:
-            parsed_data.append((
-                parse(line["time"]),
-                line["value"]
-            ))
+            parsed_data.append((parse(line["time"]), line["value"]))
 
         # Check if retrieved data is new.
-        if last_load is not None and parse(last_load.props["end_time"]) >= parsed_data[-1][0]:
+        if (
+            last_load is not None
+            and parse(last_load.props["end_time"]) >= parsed_data[-1][0]
+        ):
             print("Data is not new. Return.")
             return
 
         # If it is, write it to the database.
         objs = []
         for d in parsed_data:
-            objs.append(
-                TransformerBasic(time=d[0], power=d[1])
-            )
+            objs.append(TransformerBasic(time=d[0], power=d[1]))
         db.bulk_save_objects(objs)
 
         # Update the last checked data if we got anything new.
-        db.add(DataLoad(
-            dataset="live_primary",
-            time=datetime.datetime.utcnow(),
-            props={"end_time": parsed_data[-1][0].strftime("%Y%m%dT%H%M%S")}
-        ))
+        db.add(
+            DataLoad(
+                dataset="live_primary",
+                time=datetime.datetime.utcnow(),
+                props={"end_time": parsed_data[-1][0].strftime("%Y%m%dT%H%M%S")},
+            )
+        )
 
         db.commit()
 
