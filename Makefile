@@ -31,3 +31,6 @@ run-api: ## Runs the REST API web service.
 run-tasks: ## Runs the background task runner.
 	@echo TODO: Implement me!
 
+test: ## Runs the test suite.
+	pytest
+
