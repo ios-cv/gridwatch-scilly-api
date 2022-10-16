@@ -9,7 +9,8 @@ from . import schemas
 
 from .db import engine, SessionLocal
 
-models.Base.metadata.create_all(bind=engine)
+# Uncomment when the CI tests can handle Postgres dependency.
+#models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
