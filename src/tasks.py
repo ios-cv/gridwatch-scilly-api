@@ -21,7 +21,7 @@ def update_live_transformer_primary():
         last_load = (
             db.query(DataLoad)
             .filter(DataLoad.dataset == "live_primary")
-            .order_by("time")
+            .order_by(DataLoad.time.desc())
             .first()
         )
 
@@ -91,4 +91,4 @@ if __name__ == "__main__":
 
         # Wait for next iteration time.
         print("Task scheduler run completed. Waiting for next time.")
-        time.sleep(10)
+        time.sleep(60)

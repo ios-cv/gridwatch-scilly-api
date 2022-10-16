@@ -1,3 +1,5 @@
+name: Run Test Suite
+
 on:
   push:
     branches: [main]
