@@ -26,7 +26,7 @@ clean-docker: ## Deletes the docker containers of dependencies for local develop
 	docker-compose rm -v
 
 run-api: ## Runs the REST API web service.
-	uvicorn --app-dir ${ROOT}src main:app --reload
+	uvicorn src.main:app --reload
 
 run-tasks: ## Runs the background task runner.
 	PYTHONPATH=${ROOT}src python -m src.tasks
